@@ -1,6 +1,6 @@
 #  Articles Code Challenge
 
-A small Python project demonstrating object-relational mapping using raw SQL and SQLite. Authors write articles for magazines, and we manage the relationships using classes and SQL queries.
+A small Python project demonstrating object-relational mapping using raw SQL and SQLite. Authors write articles for magazines, and we manage the relationships using classes and SQL q
 
 ---
 
