@@ -1,4 +1,6 @@
 from lib.db.connection import get_connection
+from lib.models.article import Article
+from lib.models.magazine import Magazine
 
 class Author:
     def __init__(self, id=None, name=None):
@@ -25,11 +27,22 @@ class Author:
         conn.close()
         return cls(id=row["id"], name=row["name"]) if row else None
 
+    @classmethod
+    def find_by_name(cls, name):
+        conn = get_connection()
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM authors WHERE name = ?", (name,))
+        row = cursor.fetchone()
+        conn.close()
+        return cls(id=row["id"], name=row["name"]) if row else None
+
     def articles(self):
         conn = get_connection()
         cursor = conn.cursor()
         cursor.execute("SELECT * FROM articles WHERE author_id = ?", (self.id,))
-        return cursor.fetchall()
+        rows = cursor.fetchall()
+        conn.close()
+        return [Article(**dict(row)) for row in rows]
 
     def magazines(self):
         conn = get_connection()
@@ -39,4 +52,24 @@ class Author:
             JOIN articles a ON m.id = a.magazine_id
             WHERE a.author_id = ?
         """, (self.id,))
-        return cursor.fetchall()
+        rows = cursor.fetchall()
+        conn.close()
+        return [Magazine(**dict(row)) for row in rows]
+
+    def add_article(self, magazine, title):
+        # magazine: Magazine instance
+        article = Article(title=title, author_id=self.id, magazine_id=magazine.id)
+        article.save()
+        return article
+
+    def topic_areas(self):
+        conn = get_connection()
+        cursor = conn.cursor()
+        cursor.execute("""
+            SELECT DISTINCT m.category FROM magazines m
+            JOIN articles a ON m.id = a.magazine_id
+            WHERE a.author_id = ?
+        """, (self.id,))
+        rows = cursor.fetchall()
+        conn.close()
+        return [row["category"] for row in rows]
