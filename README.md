@@ -24,3 +24,20 @@ code-challenge/
 │ ├── test_article.py
 │ └── test_magazine.py
 └── README.md
+
+
+## About
+- **lib/models/** — Contains model classes for Author, Article, and Magazine with SQL methods.
+- **lib/db/** — Database connection, schema, and seed data.
+- **tests/** — Pytest test cases verifying the correctness of models and queries.
+- **scripts/** — Helper scripts for database setup and example queries.
+
+### How to Set Up and Run
+
+1. **Create and activate a virtual environment**
+
+```bash
+=> pipenv install
+=> pipenv shell
+=> pytest
+
