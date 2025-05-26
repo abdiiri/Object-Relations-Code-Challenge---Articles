@@ -26,7 +26,7 @@ code-challenge/
 └── README.md
 
 
-## About
+## 
 - **lib/models/** — Contains model classes for Author, Article, and Magazine with SQL methods.
 - **lib/db/** — Database connection, schema, and seed data.
 - **tests/** — Pytest test cases verifying the correctness of models and queries.
