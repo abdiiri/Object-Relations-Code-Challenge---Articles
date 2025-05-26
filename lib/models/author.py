@@ -1,6 +1,4 @@
 from lib.db.connection import get_connection
-from lib.models.article import Article
-from lib.models.magazine import Magazine
 
 class Author:
     def __init__(self, id=None, name=None):
@@ -37,6 +35,7 @@ class Author:
         return cls(id=row["id"], name=row["name"]) if row else None
 
     def articles(self):
+        from lib.models.article import Article 
         conn = get_connection()
         cursor = conn.cursor()
         cursor.execute("SELECT * FROM articles WHERE author_id = ?", (self.id,))
@@ -45,6 +44,7 @@ class Author:
         return [Article(**dict(row)) for row in rows]
 
     def magazines(self):
+        from lib.models.magazine import Magazine
         conn = get_connection()
         cursor = conn.cursor()
         cursor.execute("""
@@ -57,7 +57,8 @@ class Author:
         return [Magazine(**dict(row)) for row in rows]
 
     def add_article(self, magazine, title):
-        # magazine: Magazine instance
+        from lib.models.article import Article  
+
         article = Article(title=title, author_id=self.id, magazine_id=magazine.id)
         article.save()
         return article

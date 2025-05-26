@@ -31,4 +31,12 @@ class Article:
         cursor.execute("SELECT * FROM articles WHERE id = ?", (id,))
         row = cursor.fetchone()
         conn.close()
-        return cls(id=row["id"], title=row["title"], author_id=row["author_id"], magazine_id=row["magazine_id"]) if row else None
+        return cls(**dict(row)) if row else None
+
+    def author(self):
+        from lib.models.author import Author  
+        return Author.find_by_id(self.author_id)
+
+    def magazine(self):
+        from lib.models.magazine import Magazine
+        return Magazine.find_by_id(self.magazine_id)
