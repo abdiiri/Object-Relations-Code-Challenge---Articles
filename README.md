@@ -34,7 +34,7 @@ code-challenge/
 
 ### How to Set Up and Run
 
-1. **Create and activate a virtual environment**
+ **Create and activate a virtual environment**
 
 ```bash
 => pipenv install
